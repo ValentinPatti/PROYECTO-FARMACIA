@@ -40,6 +40,9 @@ const actualizarMedicamento = async(req,res)=>{
         const id = req.params.id
         const datos = req.body
         await medicamentoModel.actualizarMedicamento(id,datos)
+        if(!id){
+        return res.status(404).json({mensaje: 'No se encontró un servicio con el id enviado'})
+        }
         res.status(200).json({mensaje: "Medicamento actualizado correctamente"})
     } catch (error) {
         console.error(error)
@@ -47,6 +50,20 @@ const actualizarMedicamento = async(req,res)=>{
     }
 }
 
+const eliminarMedicamento = async(req,res)=>{
+    try {
+        const id = req.params.id
+        await medicamentoModel.eliminarMedicamento(id)
+        if(!id){
+        return res.status(404).json({mensaje: 'No se encontró un medicamento con el id enviado'})
+        }
 
-module.exports = {crearMedicamento, mostrarMedicamentos, mostrarMedicamentosPorNombre, actualizarMedicamento}
+        res.status(200).json({mensaje: 'Medicamento eliminado exitosamente'})
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({mensaje: 'Ocurrio un error al intentar eliminar el medicamento'})
+    }
+}
+
+module.exports = {crearMedicamento, mostrarMedicamentos, mostrarMedicamentosPorNombre, actualizarMedicamento, eliminarMedicamento}
 

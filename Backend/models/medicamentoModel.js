@@ -30,4 +30,9 @@ const actualizarMedicamento = async(id, medicamento)=>{
 
     await pool.query(sql, [medicamento.nombre, medicamento.precio, medicamento.stock, medicamento.fecha_vencimiento, id])
 }
-module.exports = {crear, obtenerTodos, obtenerMedicamentoPorNombre, actualizarMedicamento}
+
+const eliminarMedicamento = async(id)=>{
+    const sql = `DELETE FROM medicamento WHERE id_medicamento=?` 
+    await pool.query(sql, [id])
+}
+module.exports = {crear, obtenerTodos, obtenerMedicamentoPorNombre, actualizarMedicamento, eliminarMedicamento}
