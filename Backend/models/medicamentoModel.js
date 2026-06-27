@@ -9,4 +9,12 @@ const crear = async(medicamento) =>{
     await pool.query(sql,[medicamento.nombre, medicamento.precio, medicamento.stock, medicamento.fecha_vencimiento, medicamento.id_proveedor])
 }
 
-module.exports = {crear}
+const obtenerTodos = async() =>{
+    const sql = `SELECT * FROM medicamento`
+
+    const [rows] = await pool.query(sql);
+    
+    return rows;
+}
+
+module.exports = {crear, obtenerTodos}

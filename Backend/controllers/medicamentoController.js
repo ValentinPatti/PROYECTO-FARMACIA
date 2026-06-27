@@ -5,32 +5,24 @@ const crearMedicamento = async (req,res)=>{
         const medicamento = req.body
 
         await medicamentoModel.crear(medicamento)
-        
-        res.status(201).json({mensaje: 'El servicio fue creado correctamente'})
+
+        res.status(201).json({mensaje: 'El medicamento fue creado correctamente'})
     } catch (error) {
         console.error(error)
-        res.status(500).json({mensaje: 'Ocurrio un error al intentar crear el servicio'})
+        res.status(500).json({mensaje: 'Ocurrio un error al intentar crear el medicamento'})
     }
 }
 
-module.exports = {crearMedicamento}
+const obtenerMedicamentos = async (req,res) =>{
+    try {
+        const medicamentos = await medicamentoModel.obtenerTodos()
 
-// const Medicamento = require("../models/medicamentoModel");
+        res.status(200).json(medicamentos)
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({mensaje: 'Ocurrio un error al intentar buscar los medicamentos'})
+    }
+}
 
-// const listarMedicamento = async (req, res) => {
-//     try {
-//         const medicamentos =
-//         await Medicamento.obtenerMedicamentos();
+module.exports = {crearMedicamento, obtenerMedicamentos}
 
-//         res.json(medicamentos);
-//     } catch (error) {
-//         res.status(500).json({
-//             mensaje: "Error al obtener medicamentos",
-//             error: error.message
-//         })
-//     }
-// } 
-
-// module.exports = {
-//     listarMedicamento
-// };
