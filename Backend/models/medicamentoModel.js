@@ -17,4 +17,10 @@ const obtenerTodos = async() =>{
     return rows;
 }
 
-module.exports = {crear, obtenerTodos}
+const obtenerMedicamentoPorNombre = async(nombre) =>{
+    const sql = `SELECT * FROM medicamento WHERE nombre=?`
+    const [rows] = await pool.query(sql, [nombre])
+
+    return rows
+}
+module.exports = {crear, obtenerTodos, obtenerMedicamentoPorNombre}

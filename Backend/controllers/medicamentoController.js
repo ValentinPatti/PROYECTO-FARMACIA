@@ -13,7 +13,7 @@ const crearMedicamento = async (req,res)=>{
     }
 }
 
-const obtenerMedicamentos = async (req,res) =>{
+const mostrarMedicamentos = async (req,res) =>{
     try {
         const medicamentos = await medicamentoModel.obtenerTodos()
 
@@ -24,5 +24,16 @@ const obtenerMedicamentos = async (req,res) =>{
     }
 }
 
-module.exports = {crearMedicamento, obtenerMedicamentos}
+const mostrarMedicamentosPorNombre = async (req,res)=>{
+    try {
+        const nombre = req.params.nombre
+        const medicamento = await medicamentoModel.obtenerMedicamentoPorNombre(nombre)
+        res.status(200).json(medicamento)
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({mensaje: 'Ocurrio un error al intentar buscar el medicamento'})
+    }
+}
+
+module.exports = {crearMedicamento, mostrarMedicamentos, mostrarMedicamentosPorNombre}
 
