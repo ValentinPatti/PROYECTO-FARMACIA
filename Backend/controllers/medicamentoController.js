@@ -1,11 +1,19 @@
-const prueba = (req,res)=>{
+const medicamentoModel = require('../models/medicamentoModel.js')
 
-    res.json({
-        mensaje: 'Bienvenido a nuestro backend'
-    })
+const crearMedicamento = async (req,res)=>{
+    try {
+        const medicamento = req.body
+
+        await medicamentoModel.crear(medicamento)
+        
+        res.status(201).json({mensaje: 'El servicio fue creado correctamente'})
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({mensaje: 'Ocurrio un error al intentar crear el servicio'})
+    }
 }
 
-module.exports = prueba
+module.exports = {crearMedicamento}
 
 // const Medicamento = require("../models/medicamentoModel");
 
