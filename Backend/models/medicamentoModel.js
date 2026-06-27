@@ -23,4 +23,11 @@ const obtenerMedicamentoPorNombre = async(nombre) =>{
 
     return rows
 }
-module.exports = {crear, obtenerTodos, obtenerMedicamentoPorNombre}
+
+const actualizarMedicamento = async(id, medicamento)=>{
+    const sql = `UPDATE medicamento 
+    SET nombre=?, precio=?, stock=?, fecha_vencimiento=?`;
+
+    await pool.query(sql, [medicamento.nombre, medicamento.precio, medicamento.stock, medicamento.fecha_vencimiento, id])
+}
+module.exports = {crear, obtenerTodos, obtenerMedicamentoPorNombre, actualizarMedicamento}

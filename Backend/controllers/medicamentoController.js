@@ -35,5 +35,18 @@ const mostrarMedicamentosPorNombre = async (req,res)=>{
     }
 }
 
-module.exports = {crearMedicamento, mostrarMedicamentos, mostrarMedicamentosPorNombre}
+const actualizarMedicamento = async(req,res)=>{
+    try {
+        const id = req.params.id
+        const datos = req.body
+        await medicamentoModel.actualizarMedicamento(id,datos)
+        res.status(200).json({mensaje: "Medicamento actualizado correctamente"})
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({mensaje: 'Ocurrio un error al intentar actualizar el medicamento'})
+    }
+}
+
+
+module.exports = {crearMedicamento, mostrarMedicamentos, mostrarMedicamentosPorNombre, actualizarMedicamento}
 
