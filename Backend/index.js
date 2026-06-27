@@ -1,7 +1,6 @@
-require ("dotenv").config();
-
 const express = require("express")
 const cors = require("cors");
+require ("dotenv").config();
 const indexRouter = require("./routes/index.routes.js");
 
 const app = express();
@@ -12,7 +11,6 @@ app.use(express.json());
 
 app.use('/api', indexRouter)
 
-// app.use("/api/medicamentos",medicamentoRoutes);
 
 
 app.listen(PORT,() => {
