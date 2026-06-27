@@ -1,7 +1,12 @@
 const express = require("express")
 const router = express.Router();
-const prueba = require("../controllers/medicamentoController.js")
+const { crearMedicamento, mostrarMedicamentos, mostrarMedicamentosPorNombre, actualizarMedicamento, eliminarMedicamento} = require("../controllers/medicamentoController.js")
 
-router.route('/test').get(prueba);
+router.post('/', crearMedicamento)
+router.get('/', mostrarMedicamentos)
+router.get('/:nombre', mostrarMedicamentosPorNombre)
+router.patch('/:id', actualizarMedicamento)
+router.delete('/:id', eliminarMedicamento)
+
 
 module.exports = router
