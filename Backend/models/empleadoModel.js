@@ -63,10 +63,23 @@ const eliminarEmpleado = async (id) => {
     await pool.query(sql, [id]);
 };
 
+const obtenerEmpleadoPorLogin = async (dni) => {
+    const sql = `
+        SELECT *
+        FROM empleado
+        WHERE dni = ?
+    `;
+
+    const [rows] = await pool.query(sql, [dni]);
+
+    return rows[0];
+};
+
 module.exports = {
     crear,
     obtenerTodos,
     obtenerEmpleadoPorDni,
+    obtenerEmpleadoPorLogin,
     actualizarEmpleado,
     eliminarEmpleado
 };
