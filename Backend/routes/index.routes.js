@@ -6,6 +6,7 @@ const rutaCliente = require("./cliente.routes.js");
 const rutaEmpleado = require("./empleado.routes.js");
 const rutaVenta = require("./venta.routes.js");
 const rutaCompra = require("./compras.routes.js");
+const rutaLogin = require("./login.routes.js");
 
 indexRouter.use('/medicamentos', rutaMedicamento)
 indexRouter.use("/proveedores", rutaProveedor);
@@ -13,5 +14,6 @@ indexRouter.use("/clientes", rutaCliente);
 indexRouter.use("/empleados", rutaEmpleado);
 indexRouter.use("/ventas", rutaVenta);
 indexRouter.use("/compras", rutaCompra);
+indexRouter.use("/login", rutaLogin);
 
 module.exports = indexRouter
