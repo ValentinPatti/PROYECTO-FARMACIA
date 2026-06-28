@@ -3,8 +3,14 @@ const indexRouter = express.Router();
 const rutaMedicamento = require('./medicamento.routes.js')
 const rutaProveedor = require("./proveedor.routes.js");
 const rutaCliente = require("./cliente.routes.js");
+const rutaEmpleado = require("./empleado.routes.js");
+
+
 
 indexRouter.use('/medicamentos', rutaMedicamento)
 indexRouter.use("/proveedores", rutaProveedor);
 indexRouter.use("/clientes", rutaCliente);
+indexRouter.use("/empleados", rutaEmpleado);
+
+
 module.exports = indexRouter
