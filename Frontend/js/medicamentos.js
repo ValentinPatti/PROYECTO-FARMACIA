@@ -1,6 +1,6 @@
 verificarAutenticacion();
 
-verificarRol("administrador", "empleado");
+verificarRol("Administrador", "Empleado");
 
 const rol = localStorage.getItem("rol");
 

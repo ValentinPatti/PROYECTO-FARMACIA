@@ -1,3 +1,3 @@
 verificarAutenticacion();
 
-verificarRol("administrador", "empleado");
+verificarRol("Administrador", "Empleado");

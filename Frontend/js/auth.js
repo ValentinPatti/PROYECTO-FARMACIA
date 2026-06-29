@@ -13,7 +13,7 @@ function verificarRol(...rolesPermitidos) {
     const rol = localStorage.getItem("rol");
 
     if (!rolesPermitidos.includes(rol)) {
-        window.location.href = "../dashboard.html";
+        window.location.href = "./dashboard.html";
     }
 
 }
