@@ -2,7 +2,7 @@ verificarAutenticacion();
 
 verificarRol("Administrador");
 
-const tablaProveedores = document.getElementById("tablaProveedores");
+const tablaCompras = document.getElementById("tablaCompras");
 const rol = (localStorage.getItem("rol") || "").toLowerCase();
 
 function esAdministrador() {
@@ -13,14 +13,15 @@ function esAdministrador() {
 // OBTENER EMPLEADOS
 //============================
 
-async function cargarProveedores() {
+async function cargarCompras() {
   try {
-    const response = await API.get("/proveedores");
+    const response = await API.get("/compras");
 
-    mostrarProveedores(response.data);
+    mostrarCompras(response.data);
   } catch (error) {
     console.error(error);
-    alert("No se pudieron cargar los proveedores.");
+
+    alert("No se pudieron cargar las compras.");
   }
 }
 
@@ -28,14 +29,14 @@ async function cargarProveedores() {
 // DIBUJAR TABLA
 //============================
 
-function mostrarProveedores(proveedores) {
-  tablaProveedores.innerHTML = "";
+function mostrarCompras(compras) {
+  tablaCompras.innerHTML = "";
 
-  if (proveedores.length === 0) {
-    tablaProveedores.innerHTML = `
+  if (compras.length === 0) {
+    tablaCompras.innerHTML = `
             <tr>
-                <td colspan="5">
-                    No existen proveedores registrados.
+                <td colspan="3">
+                    No existen compras registradas.
                 </td>
             </tr>
         `;
@@ -43,35 +44,40 @@ function mostrarProveedores(proveedores) {
     return;
   }
 
-  proveedores.forEach((proveedor) => {
+  compras.forEach((compra) => {
     let acciones = "";
 
     if (esAdministrador()) {
       acciones = `
                 <button
                     class="btn btn-warning btn-sm me-2"
-                    onclick="editarProveedor(${proveedor.id_proveedor})">
+                    onclick="editarCompra(${compra.id_compra})">
+
                     Editar
+
                 </button>
 
                 <button
                     class="btn btn-danger btn-sm"
-                    onclick="abrirModalEliminar(${proveedor.id_proveedor})">
+                    onclick="abrirModalEliminar(${compra.id_compra})">
+
                     Eliminar
+
                 </button>
             `;
     }
 
-    tablaProveedores.innerHTML += `
+    tablaCompras.innerHTML += `
             <tr>
-                <td>${proveedor.nombre}</td>
-                <td>${proveedor.direccion}</td>
-                <td>${proveedor.telefono}</td>
-                <td>${proveedor.email}</td>
+
+                <td>${new Date(compra.fecha).toLocaleDateString("es-AR")}</td>
+
+                <td>$${compra.total}</td>
 
                 <td ${!esAdministrador() ? 'style="display:none;"' : ""}>
                     ${acciones}
                 </td>
+
             </tr>
         `;
   });
@@ -81,12 +87,12 @@ function mostrarProveedores(proveedores) {
 // MODAL
 //============================
 
-const modalProveedor = new bootstrap.Modal(
-  document.getElementById("modalProveedor"),
-);
+const modalCompra = new bootstrap.Modal(document.getElementById("modalCompra"));
 
-const formProveedor = document.getElementById("formProveedor");
-const btnGuardar = document.getElementById("btnGuardarProveedor");
+const formCompra = document.getElementById("formCompra");
+
+const btnGuardar = document.getElementById("btnGuardarCompra");
+
 const tituloModal = document.getElementById("tituloModal");
 
 let idEditar = null;
@@ -94,56 +100,47 @@ let idEditar = null;
 //============================
 // NUEVO EMPLEADO
 //============================
-
-document.getElementById("btnNuevoProveedor").addEventListener("click", () => {
+document.getElementById("btnNuevaCompra").addEventListener("click", () => {
   idEditar = null;
 
-  tituloModal.innerText = "Nuevo proveedor";
+  tituloModal.innerText = "Nueva compra";
 
-  formProveedor.reset();
+  formCompra.reset();
 });
 
 //============================
 // GUARDAR (CREAR / EDITAR)
 //============================
 
-btnGuardar.addEventListener("click", guardarEmpleado);
+btnGuardar.addEventListener("click", guardarCompra);
 
-async function guardarProveedor() {
-  const proveedor = {
-    nombre: document.getElementById("nombre").value.trim(),
+async function guardarCompra() {
+  const compra = {
+    fecha: document.getElementById("fecha").value,
 
-    direccion: document.getElementById("direccion").value.trim(),
-
-    telefono: document.getElementById("telefono").value.trim(),
-
-    email: document.getElementById("email").value.trim(),
+    total: Number(document.getElementById("total").value),
   };
 
-  if (
-    !proveedor.nombre ||
-    !proveedor.direccion ||
-    !proveedor.telefono ||
-    !proveedor.email
-  ) {
+  if (!compra.fecha || !compra.total) {
     alert("Debe completar todos los campos.");
+
     return;
   }
 
   try {
     if (idEditar === null) {
-      await API.post("/proveedores", proveedor);
+      await API.post("/compras", compra);
 
-      alert("Proveedor creado correctamente.");
+      alert("Compra creada correctamente.");
     } else {
-      await API.patch(`/proveedores/${idEditar}`, proveedor);
+      await API.patch(`/compras/${idEditar}`, compra);
 
-      alert("Proveedor actualizado correctamente.");
+      alert("Compra actualizada correctamente.");
     }
 
-    modalProveedor.hide();
+    modalCompra.hide();
 
-    cargarProveedores();
+    cargarCompras();
   } catch (error) {
     console.error(error);
 
@@ -155,28 +152,27 @@ async function guardarProveedor() {
 // EDITAR
 //============================
 
-async function editarProveedor(id) {
-  if (!esAdministrador()) return;
-
+async function editarCompra(id) {
   try {
-    const response = await API.get("/proveedores");
+    const response = await API.get("/compras");
 
-    const empleado = response.data.find((e) => e.id_empleado === id);
+    const compra = response.data.find((c) => c.id_compra === id);
 
-    if (!empleado) {
-      alert("Empleado no encontrado.");
+    if (!compra) {
+      alert("Compra no encontrada.");
+
       return;
     }
 
     idEditar = id;
-    tituloModal.innerText = "Editar proveedor";
 
-    document.getElementById("nombre").value = proveedor.nombre;
-    document.getElementById("direccion").value = proveedor.direccion;
-    document.getElementById("telefono").value = proveedor.telefono;
-    document.getElementById("email").value = proveedor.email;
+    tituloModal.innerText = "Editar compra";
 
-    modalProveedor.show();
+    document.getElementById("fecha").value = compra.fecha;
+
+    document.getElementById("total").value = compra.total;
+
+    modalCompra.show();
   } catch (error) {
     console.error(error);
   }
@@ -187,48 +183,48 @@ async function editarProveedor(id) {
 //============================
 
 const modalEliminar = new bootstrap.Modal(
-  document.getElementById("modalEliminarProveedor"),
+  document.getElementById("modalEliminarCompra"),
 );
 
-const btnEliminar = document.getElementById("btnEliminarProveedor");
+const btnEliminar = document.getElementById("btnEliminarCompra");
 
 let idEliminar = null;
 
 function abrirModalEliminar(id) {
-  if (!esAdministrador()) return;
-
   idEliminar = id;
+
   modalEliminar.show();
 }
 
-btnEliminar.addEventListener("click", eliminarEmpleado);
+btnEliminar.addEventListener("click", eliminarCompra);
 
-async function eliminarProveedor() {
-
-    await API.delete(`/proveedores/${idEliminar}`);
+async function eliminarCompra() {
+  try {
+    await API.delete(`/compras/${idEliminar}`);
 
     modalEliminar.hide();
 
     idEliminar = null;
 
-    cargarProveedores();
+    cargarCompras();
 
-    alert("Proveedor eliminado correctamente.");
+    alert("Compra eliminada correctamente.");
+  } catch (error) {
+    console.error(error);
 
+    alert("No se pudo eliminar la compra.");
+  }
 }
-
 //============================
 // INIT
 //============================
 
 document.addEventListener("DOMContentLoaded", () => {
+  cargarCompras();
 
-    cargarProveedores();
+  const btnNuevo = document.getElementById("btnNuevaCompra");
 
-    const btnNuevo = document.getElementById("btnNuevoProveedor");
-
-    if (!esAdministrador()) {
-        btnNuevo.style.display = "none";
-    }
-
+  if (!esAdministrador()) {
+    btnNuevo.style.display = "none";
+  }
 });
