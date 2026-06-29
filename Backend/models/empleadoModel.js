@@ -11,7 +11,6 @@ const crear = async (empleado) => {
         empleado.dni,
         empleado.nombre,
         empleado.apellido,
-        empleado.direccion,
         empleado.contrasena,
         empleado.rol,
         empleado.telefono
@@ -38,7 +37,6 @@ const actualizarEmpleado = async (id, empleado) => {
         SET dni = ?,
             nombre = ?,
             apellido = ?,
-            direccion = ?,
             contrasena = ?,
             rol = ?,
             telefono = ?
@@ -49,7 +47,6 @@ const actualizarEmpleado = async (id, empleado) => {
         empleado.dni,
         empleado.nombre,
         empleado.apellido,
-        empleado.direccion,
         empleado.contrasena,
         empleado.rol,
         empleado.telefono,
