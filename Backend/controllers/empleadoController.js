@@ -1,9 +1,25 @@
 const empleadoModel = require("../models/empleadoModel.js");
-
+const bcrypt = require("bcrypt")
 
 const crearEmpleado = async (req, res) => {
     try {
-        const empleado = req.body;
+         console.log("BODY:", req.body);
+        const { dni, nombre, apellido, contrasena, telefono, rol } = req.body;
+
+        if (!dni || !nombre || !apellido || !contrasena || !telefono || !rol) {
+            return res.status(400).json({ mensaje: "Faltan campos" });
+        }
+
+        const hash = await bcrypt.hash(contrasena, 12);
+
+        const empleado = {
+            dni,
+            nombre,
+            apellido,
+            contrasena: hash,
+            telefono,
+            rol
+        };
 
         await empleadoModel.crear(empleado);
 

@@ -117,7 +117,7 @@ async function guardarEmpleado() {
     apellido: document.getElementById("apellido").value.trim(),
     rol: document.getElementById("rolEmpleado").value,
     telefono: document.getElementById("telefono").value.trim(),
-    contrasena: document.getElementById("password").value.trim()
+    contrasena: document.getElementById("contrasena").value.trim()
   };
 
   if (
