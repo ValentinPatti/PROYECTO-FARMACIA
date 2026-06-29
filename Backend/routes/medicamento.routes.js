@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router();
 const { crearMedicamento, mostrarMedicamentos, mostrarMedicamentosPorNombre, actualizarMedicamento, eliminarMedicamento} = require("../controllers/medicamentoController.js")
-
+router.use(verificacionToken)
 router.post('/', crearMedicamento)
 router.get('/', mostrarMedicamentos)
 router.get('/:nombre', mostrarMedicamentosPorNombre)

@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const clienteController = require("../controllers/clientesController.js");
+router.use(verificacionToken)
 
 router.post("/", clienteController.crearCliente);
 router.get("/", clienteController.mostrarClientes);
