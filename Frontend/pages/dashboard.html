@@ -1,22 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <header>
-        <button id="btnLogout" class="btn btn-danger">Cerrar sesion</button>
-    </header>
-    <h1>dashboard</h1>
-</body>
-<script src="https://cdn.jsdelivr.net/npm/axios@1.18.1/dist/axios.min.js"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Sistema de gestión de farmacia" />
+    <meta name="author" content="Palacios Mateo - González Patti, Valentín" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
       crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <title>dashboard</title>
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <header>
+        <nav class="navbar navbar-dark bg-success">
+        <div class="container">
+          <span class="navbar-brand">Farmacia</span>
+        </div>
+        <button id="btnLogout" class="btn btn-danger">Cerrar sesion</button>
+      </nav>
+    </header>
+    <main class="flex-grow-1">
+        <div class="container">
+            <h4 class="m-4 text-center">SISTEMA DE GESTION DE FARMACIA</h4>
+        </div>
+    </main>
+    <footer class="bg-success py-2">
+      <p class="text-white text-center fw-bold mb-0">
+        &copy; Diseñado por Mateo y Valentin
+      </p>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.18.1/dist/axios.min.js"></script>
+    <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"
     ></script>
     <script src="../js/api.js"></script>
+    <script src="../js/auth.js"></script>
     <script src="../js/dashboard.js"></script>
+</body>
 </html>
