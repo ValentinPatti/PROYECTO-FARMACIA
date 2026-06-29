@@ -51,7 +51,7 @@ const register = async (req, res) => {
 
     //usuario creado correctamente + token
 
-    res.status(200).json({ message: "usuario creado correctamente" }, token);
+    res.status(201).json({ message: "usuario creado correctamente" }, token);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -103,7 +103,7 @@ const login = async (req, res) => {
     });
     //respondo con usuario logueado + token
 
-    res.status(200).json({ message: "usuario logueado correctamente" }, token);
+    res.status(200).json({ message: "Usuario logueado correctamente" , token, rol: usuario.rol, nombre: usuario.nombre});
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

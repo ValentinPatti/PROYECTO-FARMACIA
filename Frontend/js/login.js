@@ -27,12 +27,13 @@ async function iniciarSesion(e) {
 
     localStorage.setItem("token", response.data.token);
 
-    // Opcional: guardar el rol si el backend lo devuelve
+    // guarda el rol si el backend lo devuelve
 
     if (response.data.rol) {
       localStorage.setItem("rol", response.data.rol);
     }
 
+    localStorage.setItem("nombre", response.data.nombre)
     // Mensaje
 
     alert(response.data.message);

@@ -1,0 +1,3 @@
+verificarAutenticacion();
+
+verificarRol("administrador", "empleado");
