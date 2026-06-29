@@ -3,8 +3,8 @@ const pool = require("../database/db.js");
 const crear = async (empleado) => {
     const sql = `
         INSERT INTO empleado
-        (dni, nombre, apellido, direccion, contrasena, rol, telefono)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        (dni, nombre, apellido, contrasena, rol, telefono)
+        VALUES (?, ?, ?, ?, ?, ?)
     `;
 
     await pool.query(sql, [
