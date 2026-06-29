@@ -35,6 +35,27 @@ const mostrarMedicamentosPorNombre = async (req,res)=>{
     }
 }
 
+const mostrarMedicamentoPorId = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const medicamento = await medicamentoModel.obtenerMedicamentoPorId(id);
+
+        if (!medicamento) {
+            return res.status(404).json({
+                mensaje: "Medicamento no encontrado"
+            });
+        }
+        res.status(200).json(medicamento);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            mensaje: "Error al buscar medicamento"
+        });
+
+    }
+
+};
+
 const actualizarMedicamento = async(req,res)=>{
     try {
         const id = req.params.id
@@ -65,5 +86,5 @@ const eliminarMedicamento = async(req,res)=>{
     }
 }
 
-module.exports = {crearMedicamento, mostrarMedicamentos, mostrarMedicamentosPorNombre, actualizarMedicamento, eliminarMedicamento}
+module.exports = {crearMedicamento, mostrarMedicamentos, mostrarMedicamentosPorNombre, actualizarMedicamento, eliminarMedicamento, mostrarMedicamentoPorId}
 
