@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
+const verificacionToken = require('../middlewares/auth.middlewares.js')
 
 const empleadoController = require("../controllers/empleadoController");
 
+router.use(verificacionToken)
 
 router.post("/", empleadoController.crearEmpleado);
 router.get("/", empleadoController.mostrarEmpleados);

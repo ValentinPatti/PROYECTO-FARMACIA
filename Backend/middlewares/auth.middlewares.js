@@ -1,7 +1,9 @@
 const jwt = require('jsonwebtoken')
 
 const verificacionToken = (req,res,next)=>{
-    //recibo el token por el header
+
+    try {
+        //recibo el token por el header
     const headerToken = req.headers.authorization
 
     //valido si el token esta bien
@@ -11,7 +13,7 @@ const verificacionToken = (req,res,next)=>{
 
     //extraer el token correctamente
 
-    const token = headerToken.split("")[1]
+    const token = headerToken.split(" ")[1]
 
     //verifico el token
 
@@ -22,6 +24,10 @@ const verificacionToken = (req,res,next)=>{
     //respondo con next
 
     next()
+    } catch (error) {
+        return res.status(401).json({message: 'Token invalido o expirado'})
+    }
+    
 }
 
 module.exports = verificacionToken

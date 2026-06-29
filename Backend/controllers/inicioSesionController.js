@@ -32,7 +32,7 @@ const register = async (req, res) => {
 
     //insertar el nuevo usuario
 
-    const insertoNuevoUsuario = `INSERT INTO empleado (dni, nombre, apellido, contrasena, telefono) VALUES (?,?,?,?,?)`;
+    const insertoNuevoUsuario = `INSERT INTO empleado (dni, nombre, apellido, contrasena, telefono, rol) VALUES (?,?,?,?,?,?)`;
 
     const [user] = await pool.query(insertoNuevoUsuario, [
       dni,
@@ -40,6 +40,7 @@ const register = async (req, res) => {
       apellido,
       hashedContrasenia,
       telefono,
+      rol
     ]);
 
     //generar un token
