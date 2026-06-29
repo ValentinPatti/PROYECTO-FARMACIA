@@ -2,19 +2,11 @@ verificarAutenticacion();
 
 verificarRol("Administrador", "Empleado");
 const tablaMedicamentos = document.getElementById("tablaMedicamentos");
-const rol = localStorage.getItem("rol");
+const rol = (localStorage.getItem("rol") || "").toLowerCase();
 
-// if (rol === "empleado") {
-//   document.getElementById("btnNuevoMedicamento").style.display = "none";
-// }
-
-//============================
-// CARGAR MEDICAMENTOS
-//============================
-
-document.addEventListener("DOMContentLoaded", () => {
-  cargarMedicamentos();
-});
+function esAdministrador() {
+  return rol === "administrador";
+}
 
 //============================
 // OBTENER MEDICAMENTOS
@@ -37,9 +29,9 @@ async function cargarMedicamentos() {
 //============================
 
 function mostrarMedicamentos(medicamentos) {
- if(medicamentos.length===0){
-
-    tablaMedicamentos.innerHTML=`
+    tablaMedicamentos.innerHTML = "";
+  if (medicamentos.length === 0) {
+    tablaMedicamentos.innerHTML = `
 
         <tr>
 
@@ -54,13 +46,12 @@ function mostrarMedicamentos(medicamentos) {
     `;
 
     return;
-
-}
+  }
 
   medicamentos.forEach((medicamento) => {
     let botones = "";
 
-    if (rol === "administrador") {
+    if (esAdministrador()) {
       botones = `
 
                 <button
@@ -86,10 +77,6 @@ function mostrarMedicamentos(medicamentos) {
 
         <tr>
 
-            <td>${medicamento.id_medicamento}</td>
-
-            <td>${medicamento.id_proveedor}</td>
-
             <td>${medicamento.nombre}</td>
 
             <td>$${medicamento.precio}</td>
@@ -98,10 +85,8 @@ function mostrarMedicamentos(medicamentos) {
 
             <td>${new Date(medicamento.fecha_vencimiento).toLocaleDateString("es-AR")}</td>
 
-            <td>
-
+            <td ${!esAdministrador() ? 'style="display:none;"' : ""}>
                 ${botones}
-
             </td>
 
         </tr>
@@ -143,13 +128,13 @@ btnGuardar.addEventListener("click", guardarMedicamento);
 
 async function guardarMedicamento() {
   const medicamento = {
-    id_proveedor: document.getElementById("idProveedor").value,
+    id_proveedor: Number(document.getElementById("idProveedor").value),
 
     nombre: document.getElementById("nombre").value.trim(),
 
-    precio: document.getElementById("precio").value,
+    precio: Number(document.getElementById("precio").value),
 
-    stock: document.getElementById("stock").value,
+    stock: Number(document.getElementById("stock").value),
 
     fecha_vencimiento: document.getElementById("fechaVencimiento").value,
   };
@@ -259,12 +244,6 @@ async function cargarProveedores() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  cargarMedicamentos();
-
-  cargarProveedores();
-});
-
 //============================
 // MODAL ELIMINAR
 //============================
@@ -293,36 +272,39 @@ function abrirModalEliminar(id) {
 
 btnEliminar.addEventListener("click", eliminarMedicamento);
 
-async function eliminarMedicamento(){
+async function eliminarMedicamento() {
+  try {
+    await API.delete(`/medicamentos/${idEliminar}`);
 
-    try{
+    modalEliminar.hide();
 
-        await API.delete(`/medicamentos/${idEliminar}`);
+    idEliminar = null;
 
-        modalEliminar.hide();
+    cargarMedicamentos();
 
-        idEliminar = null;
+    alert("Medicamento eliminado correctamente.");
+  } catch (error) {
+    console.error(error);
 
-        cargarMedicamentos();
-
-        alert("Medicamento eliminado correctamente.");
-
-    }catch(error){
-
-        console.error(error);
-
-        alert("No se pudo eliminar el medicamento.");
-
-    }
-
+    alert("No se pudo eliminar el medicamento.");
+  }
 }
 
 document
-.getElementById("modalMedicamento")
-.addEventListener("hidden.bs.modal",()=>{
-
+  .getElementById("modalMedicamento")
+  .addEventListener("hidden.bs.modal", () => {
     formMedicamento.reset();
 
     idEditar = null;
+  });
 
+document.addEventListener("DOMContentLoaded", () => {
+  cargarMedicamentos();
+  cargarProveedores();
+
+  const btnNuevo = document.getElementById("btnNuevoMedicamento");
+
+  if (!esAdministrador()) {
+    btnNuevo.style.display = "none";
+  }
 });

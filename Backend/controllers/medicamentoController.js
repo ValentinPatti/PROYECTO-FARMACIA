@@ -86,5 +86,7 @@ const eliminarMedicamento = async(req,res)=>{
     }
 }
 
+// console.log("body recibido", req.body)
+
 module.exports = {crearMedicamento, mostrarMedicamentos, mostrarMedicamentosPorNombre, actualizarMedicamento, eliminarMedicamento, mostrarMedicamentoPorId}
 

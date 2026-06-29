@@ -6,7 +6,14 @@ const crear = async(medicamento) =>{
     (nombre,precio,stock,fecha_vencimiento,id_proveedor)
     VALUES(?,?,?,?,?)
     `
-    await pool.query(sql,[medicamento.nombre, medicamento.precio, medicamento.stock, medicamento.fecha_vencimiento, medicamento.id_proveedor])
+
+    try {
+        const result = await pool.query(sql,[medicamento.nombre, medicamento.precio, medicamento.stock, medicamento.fecha_vencimiento, medicamento.id_proveedor])
+        return result
+    } catch (error) {
+        console.error("ERROR MYSQL INSERT:", error.sqlMessage || error);
+        throw error;
+    }
 }
 
 const obtenerTodos = async() =>{
