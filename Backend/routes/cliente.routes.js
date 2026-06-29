@@ -1,13 +1,14 @@
 const express = require("express");
 const router = express.Router();
-
+const verificacionToken = require('../middlewares/auth.middlewares.js')
+const verificarRol = require('../middlewares/rol.middleware.js')
 const clienteController = require("../controllers/clientesController.js");
 router.use(verificacionToken)
 
-router.post("/", clienteController.crearCliente);
-router.get("/", clienteController.mostrarClientes);
-router.get("/buscar/:dni", clienteController.mostrarClientePorDni);
-router.patch("/:id", clienteController.actualizarCliente);
-router.delete("/:id", clienteController.eliminarCliente);
+router.post("/", verificarRol("administrador", "empleado"),clienteController.crearCliente);
+router.get("/", verificarRol("administrador", "empleado"),clienteController.mostrarClientes);
+router.get("/buscar/:dni", verificarRol("administrador", "empleado"),clienteController.mostrarClientePorDni);
+router.patch("/:id", verificarRol("administrador", "empleado"),clienteController.actualizarCliente);
+router.delete("/:id", verificarRol("administrador"),clienteController.eliminarCliente);
 
 module.exports = router;
